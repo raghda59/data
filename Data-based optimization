@@ -1,1 +1,42 @@
+# Import libraries
+import numpy as np
+from scipy.optimize import minimize 
 
+# Define the bounds
+bounds = [(0, np.inf), (0, np.inf)]
+
+# Define the objective function
+def objective_function(x):
+    x1, x2 = x
+    return -(20*x1 + 16*x2 - 2*x1**2 - x2**2 - (x1 + x2)**2)
+
+# Define the starting point
+initial_guess = [0, 0]
+
+# Define the constraint function' inequality
+def inequality_constraint(x):
+    return 5 - (x[0] + x[1])
+
+# define the type of the constraints
+constraints = [{'type': 'ineq', 'fun': inequality_constraint}]
+
+# apply the minimize function imported from SciPy 
+
+result = minimize(objective_function, initial_guess, method='SLSQP', bounds=bounds, constraints=constraints)
+
+# Providing the optimal solution for this problem
+optimal_solution = result.x
+max_objective_value = -result.fun 
+
+# Print to get the result 
+print("Optimal Solution:")
+print("x1 =", optimal_solution[0])
+print("x2 =", optimal_solution[1])
+print("Maximized Objective Function Value:", max_objective_value)
+
+
+
+Optimal Solution:
+x1 = 2.3333333469684465
+x2 = 2.6666666530315535
+Maximized Objective Function Value: 46.33333333333333
